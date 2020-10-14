@@ -1,9 +1,13 @@
 const canvas = document.getElementById("jsCanvas");
 const colors = document.getElementsByClassName("jsColor");
+const range = document.getElementById("jsRange");
+const mode = document.getElementById("jsMode");
+
 canvas.width = 700;
 canvas.height = 600;
 
 let isPaint = false;
+let filling = false;
 const ctx = canvas.getContext('2d');
 
 ctx.strokeStyle = "#2c2c2c"
@@ -34,6 +38,20 @@ function changeColor(event){
     ctx.strokeStyle = bgColor;
 }
 
+function handleRangeChange(event){
+    ctx.lineWidth = event.target.value;   
+}
+
+function handleModeClick(event){
+    if(filling === true){
+        filling = false;
+        mode.innerText = "Fill";
+    } else {
+        filling = true;
+        mode.innerText = "Paint";
+    }
+}
+
 if(canvas){
     canvas.addEventListener("mousemove", onMouseMove);
     canvas.addEventListener("mousedown", startPainting);
@@ -42,3 +60,11 @@ if(canvas){
 }
 
 Array.from(colors).forEach(color => color.addEventListener("click", changeColor));
+
+if(range){
+    range.addEventListener("input", handleRangeChange);
+}
+
+if(mode){
+    mode.addEventListener("click", handleModeClick);
+}
