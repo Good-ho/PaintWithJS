@@ -11,7 +11,11 @@ let filling = false;
 const ctx = canvas.getContext('2d');
 
 ctx.strokeStyle = "#2c2c2c"
+ctx.fillStyle= "#2c2c2c"
 ctx.lineWidth = 2.5;
+
+// ctx.fillStyle = "green";
+// ctx.fillRect(50, 10, 100, 200);
 
 function startPainting(){
     isPaint = true;
@@ -36,6 +40,7 @@ function onMouseMove(event){
 function changeColor(event){
     const bgColor = event.target.style.backgroundColor;
     ctx.strokeStyle = bgColor;
+    ctx.fillStyle = bgColor;
 }
 
 function handleRangeChange(event){
@@ -48,7 +53,13 @@ function handleModeClick(event){
         mode.innerText = "Fill";
     } else {
         filling = true;
-        mode.innerText = "Paint";
+        mode.innerText = "Paint";        
+    }
+}
+
+function handleCanvasClick(event){
+    if(filling){
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 }
 
@@ -57,6 +68,7 @@ if(canvas){
     canvas.addEventListener("mousedown", startPainting);
     canvas.addEventListener("mouseup", stopPainting);
     canvas.addEventListener("mouseleave", stopPainting);
+    canvas.addEventListener("click", handleCanvasClick);
 }
 
 Array.from(colors).forEach(color => color.addEventListener("click", changeColor));
